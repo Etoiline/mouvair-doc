@@ -1,6 +1,6 @@
 # Organisation des informations à l’écran
 
-Étape 7 — En cours. Résumé, blocs détaillés et liste des créneaux validés le 7 septembre 2026.
+Étape 7 — Validée le 7 septembre 2026.
 
 ## Résumé du créneau sélectionné — Validé
 
@@ -35,6 +35,15 @@ Présenter trois blocs sous le résumé :
 - Si même le meilleur créneau est défavorable, un message le précise.
 - Si la recommandation est suspendue, notamment pour des données trop anciennes, désactiver le bouton avec une explication.
 
-## À définir et valider
+## Chargement, actualisation et indisponibilité — Validés
 
-- Présentation des états de chargement, d’indisponibilité et d’actualisation.
+- **Premier chargement** : afficher « Chargement des prévisions pour Lyon… ». La liste des créneaux apparaît lorsque les données sont prêtes.
+- **Actualisation en arrière-plan** : conserver les résultats visibles et remplacer temporairement le libellé du bouton par « Actualisation… ».
+- **Premier chargement impossible** : afficher « Impossible de charger les prévisions » avec un bouton « Réessayer ». La recherche de ville reste accessible.
+- **Échec avec des données déjà disponibles** : conserver les résultats et afficher « Actualisation impossible — dernières données récupérées à 14 h 20 », avec l’heure réelle de la dernière récupération réussie.
+- **Données vieilles de plus d’une heure** : afficher « Données anciennes » près des notes. Les résultats restent consultables à titre indicatif, mais le meilleur créneau n’est plus proposé.
+- **Créneau incomplet** : afficher « Données incomplètes ». Chaque note disponible reste visible, la note manquante affiche « Indisponible » et la note globale est indisponible.
+- **Pollens indisponibles** : afficher le message prévu uniquement dans le bloc pollen, sans masquer les notes météo et air.
+- **Ville introuvable** : afficher « Aucune ville trouvée. Vérifiez l’orthographe ou précisez le pays. »
+
+Les alertes météo déjà détectées restent visibles pendant une erreur d’actualisation et lorsqu’une note est indisponible.
