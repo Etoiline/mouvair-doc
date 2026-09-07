@@ -14,7 +14,7 @@ Les prévisions s’affichent avec « Course tranquille » sélectionnée par d�
 
 ## 3. Consulter les conditions
 
-Le premier créneau disponible est sélectionné. L’écran présente sa note, son niveau de conditions, les quatre facteurs et les principales explications. La ville, les horaires locaux et la date d’actualisation restent visibles.
+Le premier créneau disponible est sélectionné. L’écran présente sa note globale et son appréciation, ses notes météo et air, les conditions détaillées et les principales explications. La ville, les horaires locaux et la mention « Données récupérées à… » restent visibles.
 
 ## 4. Comparer les heures
 
@@ -32,5 +32,5 @@ Les données se renouvellent automatiquement et un bouton permet une actualisati
 
 - Aucun résultat : inviter à vérifier ou préciser le nom de la ville.
 - Service indisponible : expliquer l’échec et proposer de réessayer.
-- Données manquantes : conserver l’heure visible avec la mention « Données incomplètes », sans note ni sélection comme meilleur créneau.
+- Données manquantes : conserver l’heure visible avec la mention « Données incomplètes », afficher les notes disponibles et « Indisponible » pour la note manquante, sans note globale ni sélection comme meilleur créneau.
 - Actualisation en échec : conserver les dernières prévisions en indiquant qu’elles n’ont pas pu être actualisées.

@@ -420,7 +420,7 @@ Si les trois sous-notes valent 100 et qu’aucune alerte n’est présente, affi
 
 Principe validé le 7 septembre 2026.
 
-La note qualité de l’air est identique pour les quatre activités au même endroit et à la même heure. Elle décrit la qualité de l’air du lieu. Son influence sur la note globale sera adaptée à l’activité selon des règles restant à définir.
+La note qualité de l’air est identique pour les quatre activités au même endroit et à la même heure. Elle décrit la qualité de l’air du lieu. Son influence sur la note globale est adaptée à l’activité par les pondérations définies dans la section dédiée à la note globale.
 
 Changer de sport ne modifie donc pas la note air, mais peut modifier son importance dans la note globale.
 
