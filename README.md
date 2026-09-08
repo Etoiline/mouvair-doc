@@ -25,3 +25,20 @@ mouvair/
 ```
 
 Le code de l’interface se trouve dans `mouvair-front`, celui de l’API dans `mouvair-back`.
+
+## Créer une release
+
+La version courante de la documentation est conservée dans `VERSION`. Le dépôt doit être propre et
+`CHANGELOG.md` doit contenir au moins une ligne de changement non publiée sous son titre. Le script
+demande s’il faut incrémenter la version majeure, mineure ou corrective, met à jour `VERSION` et le
+changelog, puis crée le commit `🔖 Release x.y.z` :
+
+```powershell
+python scripts/release.py
+```
+
+Pour prévisualiser la prochaine version sans modifier le dépôt ni créer de commit :
+
+```powershell
+python scripts/release.py --dry-run
+```
