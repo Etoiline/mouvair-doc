@@ -2,7 +2,7 @@
 
 Étape 4 — Validée le 6 septembre 2026.
 
-Ce document décrit le parcours visé pour la première version, y compris les comportements restant à implémenter.
+Ce parcours est présent dans la version locale vérifiée le 9 septembre 2026.
 
 ## 1. Rechercher une ville
 

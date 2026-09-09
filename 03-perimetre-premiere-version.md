@@ -2,7 +2,7 @@
 
 Étape 3 — Validée le 6 septembre 2026. Complétée par les décisions sur les trois notes et l’information pollen du 7 septembre 2026.
 
-Ce périmètre décrit la version visée. Certaines fonctionnalités nécessitent encore des améliorations du code actuel.
+Ce périmètre est présent dans la version locale vérifiée le 9 septembre 2026.
 
 ## Fonctionnalités incluses
 

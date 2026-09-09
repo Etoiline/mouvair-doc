@@ -1,5 +1,7 @@
 # Changelog
 
+- Align the project synthesis and implementation status with the completed scoring, forecast, resilience, and interface work, including current verification gaps.
+
 ## 0.2.0 - 2026-09-08
 
 - Align the scope, journey, scoring rules, and project synthesis with the validated three-score, pollen, data timestamp, and incomplete-data behavior.

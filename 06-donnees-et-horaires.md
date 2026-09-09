@@ -1,6 +1,6 @@
 # Données, horaires et actualisation
 
-Étape 6 — Règles produit validées le 7 septembre 2026 ; implémentation à adapter.
+Étape 6 — Règles produit validées le 7 septembre 2026 et implémentation vérifiée le 9 septembre 2026.
 
 ## Horaires des créneaux — Validés
 
