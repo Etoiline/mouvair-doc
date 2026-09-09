@@ -1,6 +1,6 @@
 # Règles du score
 
-Étape 5 — Règles produit validées le 7 septembre 2026. Ce document décrit le comportement cible ; il ne signifie pas que ces règles sont déjà implémentées.
+Étape 5 — Règles produit validées le 7 septembre 2026 et implémentation vérifiée le 9 septembre 2026.
 
 ## Organisation validée
 
@@ -605,7 +605,7 @@ Convention validée le 7 septembre 2026 : chaque borne supérieure appartient à
 
 Exemple : 40 reste « Acceptable » ; 40,1 devient « Modérée ». La catégorie ne dépend pas de l’arrondi de la note air Mouv’Air.
 
-L’ancienne proposition de pondérations mélangeant directement les quatre facteurs météo et air n’est pas retenue. Le code actuel ne constitue pas la spécification des nouvelles règles.
+L’ancienne proposition de pondérations mélangeant directement les quatre facteurs météo et air n’est pas retenue. Le moteur actuel applique l’organisation à trois notes décrite dans ce document.
 
 
 
