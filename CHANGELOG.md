@@ -1,5 +1,7 @@
 # Changelog
 
+- Document shared Redis caches, distributed Open-Meteo quotas, client rate limits, and degraded operation.
+
 ## 0.3.0 - 2026-09-09
 
 - Align the project synthesis and implementation status with the completed scoring, forecast, resilience, and interface work, including current verification gaps.
