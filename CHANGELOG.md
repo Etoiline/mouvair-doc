@@ -1,5 +1,7 @@
 # Changelog
 
+- Add exact client limits, Redis error behavior, and the local Docker verification procedure.
+
 - Document the higher per-client request limits for location and forecast endpoints.
 
 - Record the new frontend journey test coverage and update the remaining validation priorities.

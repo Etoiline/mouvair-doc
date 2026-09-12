@@ -65,12 +65,36 @@ Le seuil de 1 h est un choix de fonctionnement Mouv’Air, pas une durée de val
   prévision météo et air.
 - Appliquer les seuils partagés de 540 appels par minute, 4 500 par heure, 9 000 par jour et 270 000
   sur 31 jours afin de garder 10 % de marge sous les quotas gratuits officiels.
-- Limiter séparément chaque client afin qu’un usage abusif ne monopolise pas le budget commun.
+- Limiter séparément chaque client, y compris pour les réponses en cache : 120 recherches de villes
+  par minute et 1 200 par heure, puis 40 demandes de prévisions par minute et 240 par heure.
 
 Lorsque le quota partagé est atteint, les données déjà connues restent accessibles. Sans cache, la
 requête échoue temporairement et indique quand réessayer. En production, une panne Redis bloque les
 nouveaux appels fournisseur plutôt que de risquer un dépassement ; elle ne masque pas les données
 encore présentes dans le cache local.
+
+Une limite propre au client renvoie `429` avec `Retry-After`. Un quota fournisseur atteint ou une
+protection Redis indisponible sans donnée de repli renvoie `503` avec `Retry-After`. Un `429` reçu
+directement d’Open-Meteo déclenche un délai partagé afin que les autres instances suspendent aussi
+leurs appels.
+
+## Vérification locale Redis
+
+Docker Desktop doit être démarré. Depuis le dépôt backend, la suite complète peut utiliser le Redis
+défini dans `compose.yaml` :
+
+```powershell
+docker compose up -d redis
+docker compose exec -T redis redis-cli ping
+$env:TEST_REDIS_URL="redis://127.0.0.1:6379/15"
+.\.venv\Scripts\python.exe -m pytest
+Remove-Item Env:TEST_REDIS_URL
+docker compose stop redis
+```
+
+Le `ping` doit répondre `PONG`. La base Redis 15 est réservée aux tests d’intégration, qui nettoient
+leurs propres clés. L’arrêt conserve le volume Docker ; sa suppression explicite effacerait les
+données Redis locales.
 
 ## Conditions sur une sortie de 1 h — Méthode validée
 
