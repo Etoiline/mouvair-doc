@@ -2,11 +2,12 @@
 
 Étape 4 — Validée le 6 septembre 2026.
 
-Ce parcours est présent dans la version locale vérifiée le 9 septembre 2026.
+Ce parcours est présent dans la version locale vérifiée le 12 septembre 2026.
 
 ## 1. Rechercher une ville
 
-L’utilisateur saisit un nom et lance la recherche. Il choisit ensuite parmi les résultats, accompagnés de leur région et pays pour distinguer les villes homonymes.
+L’utilisateur saisit au moins trois caractères d’un nom et lance la recherche. Il choisit ensuite
+parmi les résultats, accompagnés de leur région et pays pour distinguer les villes homonymes.
 
 ## 2. Choisir son activité
 

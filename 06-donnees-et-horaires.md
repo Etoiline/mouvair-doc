@@ -1,6 +1,6 @@
 # Données, horaires et actualisation
 
-Étape 6 — Règles produit validées le 7 septembre 2026 et implémentation vérifiée le 9 septembre 2026.
+Étape 6 — Règles produit validées le 7 septembre 2026 et implémentation vérifiée le 12 septembre 2026.
 
 ## Horaires des créneaux — Validés
 
@@ -34,12 +34,16 @@ L’heure affichée est intitulée « Données récupérées à… ». Une récu
 
 ## Cache et données anciennes — Validés
 
-Règles validées le 7 septembre 2026.
+Règles fonctionnelles validées le 7 septembre 2026. Extension Redis et protection des quotas validées
+le 12 septembre 2026.
 
 - Réutiliser pendant 15 minutes les prévisions déjà récupérées pour un lieu, si elles couvrent les créneaux demandés.
 - Après 15 minutes, effectuer une nouvelle récupération auprès du fournisseur.
 - Le bouton « Actualiser » suit la même règle et peut restituer des données récemment mises en cache.
 - Une réponse issue du cache conserve l’heure réelle de récupération auprès du fournisseur.
+- Partager les prévisions entre les processus et instances via Redis, tout en conservant un cache
+  mémoire local de secours.
+- Regrouper les actualisations simultanées d’une même position avec un verrou distribué.
 
 Si le fournisseur ne répond plus, appliquer les règles suivantes selon le temps écoulé depuis la dernière récupération réussie :
 
@@ -51,6 +55,22 @@ Si le fournisseur ne répond plus, appliquer les règles suivantes selon le temp
 Les départs passés restent retirés. Si les données ne couvrent plus les 24 créneaux, les heures manquantes sont affichées comme indisponibles.
 
 Le seuil de 1 h est un choix de fonctionnement Mouv’Air, pas une durée de validité scientifique des prévisions. Servir une réponse en cache ne remet pas à zéro son âge.
+
+## Recherche de ville et quotas fournisseur — Validés
+
+- Ne pas interroger le fournisseur avant trois caractères après normalisation de la saisie.
+- Conserver un résultat de géocodage 24 heures et une absence de résultat 5 minutes.
+- Compter uniquement les appels réellement réservés auprès d’Open-Meteo, jamais les cache hits.
+- Compter une unité pour le géocodage et réserver ensemble les deux unités nécessaires à une
+  prévision météo et air.
+- Appliquer les seuils partagés de 540 appels par minute, 4 500 par heure, 9 000 par jour et 270 000
+  sur 31 jours afin de garder 10 % de marge sous les quotas gratuits officiels.
+- Limiter séparément chaque client afin qu’un usage abusif ne monopolise pas le budget commun.
+
+Lorsque le quota partagé est atteint, les données déjà connues restent accessibles. Sans cache, la
+requête échoue temporairement et indique quand réessayer. En production, une panne Redis bloque les
+nouveaux appels fournisseur plutôt que de risquer un dépassement ; elle ne masque pas les données
+encore présentes dans le cache local.
 
 ## Conditions sur une sortie de 1 h — Méthode validée
 

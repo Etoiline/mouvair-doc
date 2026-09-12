@@ -1,6 +1,6 @@
 # Synthèse du projet Mouv’Air
 
-État du 9 septembre 2026, fondé sur les trois dépôts locaux et les vérifications décrites en fin de document.
+État du 12 septembre 2026, fondé sur les trois dépôts locaux et les vérifications décrites en fin de document.
 
 ## Objectif et parcours disponible
 
@@ -20,9 +20,10 @@ Les créneaux sont regroupés par date locale. En cas d’égalité, le premier 
 ## Architecture
 
 - **Frontend** : React, TypeScript en mode strict et Vite.
-- **Backend** : FastAPI, Pydantic et httpx.
+- **Backend** : FastAPI, Pydantic, httpx et redis-py en mode asynchrone.
 - **Fournisseur** : Open-Meteo pour la recherche de villes, la météo, la qualité de l’air et les pollens.
-- **Stockage** : aucun compte ni base de données ; le cache des prévisions réside en mémoire dans l’API.
+- **Stockage** : aucun compte ni base de données métier ; Redis partage les caches, les verrous et
+  les compteurs de quota, avec un cache mémoire L1 dans chaque processus.
 
 L’API expose `GET /health`, `GET /api/locations` et `GET /api/forecast`. La récupération des données, l’assemblage des créneaux, le cache et le calcul des scores sont séparés dans le backend. Les appels météo et qualité de l’air sont effectués en parallèle.
 
@@ -57,7 +58,14 @@ Les catégories de l’AQI et les recommandations destinées à la population g�
 
 ## Actualisation et résilience
 
-Le backend réutilise pendant 15 minutes une prévision complète mise en cache pour une position. Le cache accepte au plus 256 positions, disparaît au redémarrage du serveur et regroupe les demandes simultanées identiques en une seule récupération fournisseur.
+Le backend réutilise pendant 15 minutes une prévision complète mise en cache pour une position.
+Chaque processus conserve au plus 256 positions en mémoire et Redis fournit un second niveau partagé.
+Les demandes simultanées identiques sont regroupées en une seule récupération fournisseur, y
+compris entre instances grâce à un verrou distribué.
+
+Le géocodage commence à trois caractères. Les variantes de casse et d’espacement partagent la même
+entrée ; les résultats sont conservés 24 heures et les absences de résultat 5 minutes. Un cache local
+borné permet encore de répondre aux recherches déjà connues pendant une panne Redis.
 
 Après l’échec d’une actualisation, l’API recompose toujours la fenêtre des 24 départs futurs :
 
@@ -67,6 +75,22 @@ Après l’échec d’une actualisation, l’API recompose toujours la fenêtre 
 
 Le frontend permet l’actualisation manuelle, vérifie les données toutes les 15 minutes et au début d’un nouveau créneau, puis rattrape un contrôle manqué au retour sur un onglet visible. Les résultats, l’activité et le créneau sélectionné restent affichés pendant une actualisation lorsque cela est possible. Le premier chargement, son échec avec réessai, l’échec d’une actualisation existante et les données anciennes possèdent des états distincts.
 
+## Quotas Open-Meteo et fonctionnement dégradé
+
+Les géocodages, appels météo et appels air partagent quatre fenêtres glissantes Redis. Une marge de
+10 % fixe les seuils Mouv’Air à 540 appels par minute, 4 500 par heure, 9 000 par jour et 270 000 sur
+31 jours. Un géocodage réserve une unité ; une prévision réserve atomiquement deux unités avant de
+lancer météo et air. Un cache hit ne consomme pas le budget.
+
+Chaque client est également limité séparément. Son adresse n’est pas stockée en clair et un en-tête
+de proxy n’est accepté que si le proxy direct est explicitement déclaré fiable. Une limite client
+renvoie `429`. Un quota global indisponible sans donnée de repli renvoie `503`.
+
+En production, la panne de Redis interdit par défaut les nouveaux appels Open-Meteo, mais les caches
+mémoire et les anciennes prévisions restent utilisables. `/health` signale alors l’état `degraded`.
+Un mode local doit être activé explicitement pour le développement mono-processus et ne constitue
+pas une garantie multi-instance.
+
 ## État d’alignement
 
 | Domaine documenté | État dans la version locale | Vérification principale |
@@ -74,13 +98,14 @@ Le frontend permet l’actualisation manuelle, vérifie les données toutes les 
 | Trois notes, courbes, pondérations, plafonds et alertes | Implémenté | Tests du moteur de score |
 | 24 créneaux locaux d’une heure et agrégation des deux bornes | Implémenté | Tests d’assemblage, fuseaux et changements d’heure |
 | AQI, recommandations et six pollens | Implémenté | Tests backend et contrat typé frontend |
-| Cache, données anciennes et requêtes simultanées | Implémenté | Tests du service de prévision |
+| Caches partagés, données anciennes et requêtes simultanées | Implémenté | Tests des services de prévision et de géocodage |
+| Quotas Open-Meteo et limites par client | Implémenté | Tests atomiques, concurrence et contrats HTTP |
 | Résumé, détails, liste par date et meilleur créneau | Implémenté | Compilation TypeScript et build de production |
 | Chargement, actualisation, réessai et états incomplets | Implémenté | Compilation TypeScript et build de production |
 
 ## Vérifications effectuées
 
-- Tests backend : 80 sur 80 réussis le 9 septembre 2026.
+- Tests backend : 117 sur 117 réussis le 12 septembre 2026, dont 5 contre une instance Redis réelle.
 - Contrôle Ruff du backend : réussi.
 - Compilation TypeScript et build de production du frontend : réussis.
 - Contrat sérialisé du score : vérifié sans les anciens champs plats.
@@ -91,6 +116,6 @@ Le frontend ne possède pas encore de suite automatisée de tests de composants 
 
 1. Ajouter des tests frontend ciblés sur la sélection, le meilleur créneau, l’actualisation et les états d’erreur.
 2. Vérifier manuellement le rendu responsive, le clavier et les annonces des technologies d’assistance sur les principaux navigateurs.
-3. Mettre en place une intégration continue pour exécuter les 80 tests backend, Ruff et le build frontend à chaque modification.
-4. Prévoir un cache partagé, une supervision et des limites de requêtes si l’API est déployée avec plusieurs processus ou plusieurs instances.
+3. Mettre en place une intégration continue avec Redis pour exécuter les tests backend, Ruff et le build frontend à chaque modification.
+4. Brancher les événements de quota, de cache et d’état Redis à une supervision de production.
 5. Continuer à présenter les données Open-Meteo comme des prévisions de modèle, dont la précision ne correspond pas à une mesure exacte au niveau de la rue.
