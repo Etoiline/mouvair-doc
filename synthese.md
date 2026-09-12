@@ -82,9 +82,10 @@ Les géocodages, appels météo et appels air partagent quatre fenêtres glissan
 31 jours. Un géocodage réserve une unité ; une prévision réserve atomiquement deux unités avant de
 lancer météo et air. Un cache hit ne consomme pas le budget.
 
-Chaque client est également limité séparément. Son adresse n’est pas stockée en clair et un en-tête
-de proxy n’est accepté que si le proxy direct est explicitement déclaré fiable. Une limite client
-renvoie `429`. Un quota global indisponible sans donnée de repli renvoie `503`.
+Chaque client est également limité séparément : 120 recherches de villes par minute et 1 200 par
+heure, puis 40 demandes de prévisions par minute et 240 par heure. Son adresse n’est pas stockée en
+clair et un en-tête de proxy n’est accepté que si le proxy direct est explicitement déclaré fiable.
+Une limite client renvoie `429`. Un quota global indisponible sans donnée de repli renvoie `503`.
 
 En production, la panne de Redis interdit par défaut les nouveaux appels Open-Meteo, mais les caches
 mémoire et les anciennes prévisions restent utilisables. `/health` signale alors l’état `degraded`.
@@ -105,7 +106,7 @@ pas une garantie multi-instance.
 
 ## Vérifications effectuées
 
-- Tests backend : 117 sur 117 réussis le 12 septembre 2026, dont 5 contre une instance Redis réelle.
+- Tests backend : 118 sur 118 réussis le 12 septembre 2026, dont 5 contre une instance Redis réelle.
 - Contrôle Ruff du backend : réussi.
 - Tests frontend : 5 sur 5 réussis avec Vitest et Testing Library.
 - Compilation TypeScript et build de production du frontend : réussis.
