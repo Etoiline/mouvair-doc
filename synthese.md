@@ -100,22 +100,25 @@ pas une garantie multi-instance.
 | AQI, recommandations et six pollens | Implémenté | Tests backend et contrat typé frontend |
 | Caches partagés, données anciennes et requêtes simultanées | Implémenté | Tests des services de prévision et de géocodage |
 | Quotas Open-Meteo et limites par client | Implémenté | Tests atomiques, concurrence et contrats HTTP |
-| Résumé, détails, liste par date et meilleur créneau | Implémenté | Compilation TypeScript et build de production |
-| Chargement, actualisation, réessai et états incomplets | Implémenté | Compilation TypeScript et build de production |
+| Résumé, détails, liste par date et meilleur créneau | Implémenté | Tests de parcours frontend et build de production |
+| Chargement, actualisation, réessai et états incomplets | Implémenté | Tests de parcours frontend et build de production |
 
 ## Vérifications effectuées
 
 - Tests backend : 117 sur 117 réussis le 12 septembre 2026, dont 5 contre une instance Redis réelle.
 - Contrôle Ruff du backend : réussi.
+- Tests frontend : 5 sur 5 réussis avec Vitest et Testing Library.
 - Compilation TypeScript et build de production du frontend : réussis.
 - Contrat sérialisé du score : vérifié sans les anciens champs plats.
 
-Le frontend ne possède pas encore de suite automatisée de tests de composants ou de parcours de bout en bout. Aucun pipeline d’intégration continue n’est présent dans les trois dépôts.
+Le frontend possède désormais une première suite automatisée de parcours simulés dans jsdom, mais
+pas encore de tests dans un navigateur réel. Aucun pipeline d’intégration continue n’est présent
+dans les trois dépôts.
 
 ## Limites et prochaines vérifications utiles
 
-1. Ajouter des tests frontend ciblés sur la sélection, le meilleur créneau, l’actualisation et les états d’erreur.
-2. Vérifier manuellement le rendu responsive, le clavier et les annonces des technologies d’assistance sur les principaux navigateurs.
+1. Vérifier manuellement le rendu responsive, le clavier et les annonces des technologies d’assistance sur les principaux navigateurs.
+2. Ajouter quelques tests dans un navigateur réel pour les comportements impossibles à valider dans jsdom.
 3. Mettre en place une intégration continue avec Redis pour exécuter les tests backend, Ruff et le build frontend à chaque modification.
 4. Brancher les événements de quota, de cache et d’état Redis à une supervision de production.
 5. Continuer à présenter les données Open-Meteo comme des prévisions de modèle, dont la précision ne correspond pas à une mesure exacte au niveau de la rue.

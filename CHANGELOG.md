@@ -1,5 +1,7 @@
 # Changelog
 
+- Record the new frontend journey test coverage and update the remaining validation priorities.
+
 - Document shared Redis caches, distributed Open-Meteo quotas, client rate limits, and degraded operation.
 
 ## 0.3.0 - 2026-09-09
