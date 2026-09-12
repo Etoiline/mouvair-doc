@@ -1,5 +1,7 @@
 # Changelog
 
+- Document the higher per-client request limits for location and forecast endpoints.
+
 - Record the new frontend journey test coverage and update the remaining validation priorities.
 
 - Document shared Redis caches, distributed Open-Meteo quotas, client rate limits, and degraded operation.
