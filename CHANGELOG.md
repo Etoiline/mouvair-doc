@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.4.0 - 2026-09-13
+
 - Add exact client limits, Redis error behavior, and the local Docker verification procedure.
 
 - Document the higher per-client request limits for location and forecast endpoints.
