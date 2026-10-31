@@ -11,7 +11,10 @@ Ce dépôt rassemble la documentation produit et technique de Mouv’Air.
 - [Étape 5 — Règles du score](05-regles-du-score.md) : validée le 7 septembre 2026 ; moteur aligné le 9 septembre 2026.
 - [Étape 6 — Données, horaires et actualisation](06-donnees-et-horaires.md) : validée le 7 septembre 2026 ; implémentation alignée le 12 septembre 2026.
 - [Étape 7 — Organisation des informations à l’écran](07-organisation-des-informations.md) : validée le 7 septembre 2026 ; interface alignée le 9 septembre 2026.
-- [Synthèse du projet](synthese.md) : fonctionnalités, architecture, état technique vérifié et prochaines validations utiles.
+- [Synthèse du projet](synthese.md) : état local au 31 octobre 2026, fonctionnalités, architecture, interface, vérifications automatisées et prochaines validations utiles.
+
+Les dates des étapes correspondent aux validations produit. La synthèse regroupe l’état de
+l’implémentation et les résultats des contrôles techniques à sa date de mise à jour.
 
 ## Organisation locale
 
