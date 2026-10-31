@@ -11,7 +11,9 @@ Présenter les informations dans cet ordre :
 3. Note globale, en premier parmi les notes, avec son appréciation.
 4. Notes météo et qualité de l’air, visibles séparément juste dessous.
 5. Alertes éventuelles, directement visibles.
-6. Deux explications principales pour comprendre la note, selon les règles du score.
+6. Jusqu’à deux explications météo principales pour comprendre la note, selon les règles du score.
+
+Dans « À retenir », afficher uniquement les deux premières explications météo fournies par l’API. Les informations sur la qualité de l’air sont présentées dans sa note dédiée et dans l’onglet de détail.
 
 Les conditions détaillées et les pollens apparaissent ensuite.
 
