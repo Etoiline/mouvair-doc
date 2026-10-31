@@ -1,5 +1,7 @@
 # Changelog
 
+- Refresh the project synthesis with the current architecture, interface, CI, diagnostics, local verification results, and remaining validation priorities.
+
 - Document weather-only takeaways and explanation intensity consistent with the displayed ratings.
 
 ## 0.4.0 - 2026-09-13
