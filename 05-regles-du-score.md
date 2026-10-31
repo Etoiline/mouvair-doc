@@ -412,7 +412,9 @@ Sélection des explications principales à partir des valeurs non arrondies :
 1. Si un plafond progressif réduit la moyenne, expliquer en premier le facteur qui impose le plafond le plus bas.
 2. Compléter avec le facteur qui retire le plus de points à la moyenne, compte tenu de son poids, sans répéter le premier facteur. La contribution à la dégradation est `poids × (100 − sous-note)`.
 
-Exemple pour le vélo : température 100, précipitations 35 et vent 100 donnent une note météo de 55/100. Message : « Les précipitations prévues pénalisent fortement ce créneau pour le vélo. »
+Le mot « fortement » est réservé au premier facteur qui impose un plafond, lorsque les appréciations météo et globale sont toutes deux sous le niveau « Correct ». Si l’une est correcte, favorable ou indisponible, conserver une formulation sans cet intensif. Cette règle de rédaction ne modifie ni les notes, ni les plafonds, ni les alertes.
+
+Exemple pour le vélo : température 100, précipitations 35 et vent 100 donnent une note météo de 55/100. Avec une note air de 85/100, la globale vaut 64/100 (« Correct ») ; le message est « Les précipitations prévues pénalisent ce créneau pour le vélo. » Avec une note air de 40/100, la globale vaut 51/100 (« Mitigé ») ; « pénalisent fortement » reste adapté.
 
 Si les trois sous-notes valent 100 et qu’aucune alerte n’est présente, afficher : « Conditions météo favorables pour cette activité. »
 
