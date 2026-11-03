@@ -40,6 +40,10 @@ changelog, puis crée le commit `🔖 Release x.y.z` :
 python scripts/release.py
 ```
 
+`VERSION` doit correspondre à la dernière section publiée du changelog. Les changements à publier
+restent directement sous `# Changelog`, avant les sections de version ; la date de release est celle
+du poste qui exécute la commande.
+
 Pour prévisualiser la prochaine version sans modifier le dépôt ni créer de commit :
 
 ```powershell
