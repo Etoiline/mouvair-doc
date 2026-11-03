@@ -1,5 +1,7 @@
 # Changelog
 
+- Document release preconditions, preview behavior, and changelog structure in the release script and README.
+
 ## 0.4.1 - 2026-11-01
 
 - Refresh the project synthesis with the current architecture, interface, CI, diagnostics, local verification results, and remaining validation priorities.
