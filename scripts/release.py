@@ -1,4 +1,10 @@
-"""Crée une release locale de la documentation à partir du changelog."""
+"""Crée une release locale de la documentation à partir du changelog.
+
+VERSION doit correspondre à la dernière section publiée ; les changements en
+attente restent directement sous # Changelog. --dry-run valide le dépôt et le
+choix SemVer, puis affiche le résultat sans écrire ni créer de commit.
+Le script ne crée pas de tag et ne pousse pas les changements.
+"""
 
 from __future__ import annotations
 
@@ -100,7 +106,11 @@ def ensure_clean_repository() -> None:
 
 
 def validate_changelog(changelog: str, current_version: Version) -> re.Match[str]:
-    """Valide le bloc non publié et la cohérence de la dernière release."""
+    """Valide le bloc non publié et la cohérence de la dernière release.
+
+    Le titre de version sera inséré après le titre principal : un autre titre
+    dans les changements en attente créerait une section imbriquée involontaire.
+    """
 
     start = CHANGELOG_START_PATTERN.match(changelog)
     if not start:
@@ -197,6 +207,7 @@ def main() -> None:
         print(f"Commit : 🔖 Release {next_version}")
         return
 
+    # Les écritures et le staging commencent seulement après la sortie possible de --dry-run.
     write_text(VERSION_PATH, f"{next_version}\n")
     write_text(CHANGELOG_PATH, next_changelog)
     run_git("add", "--", VERSION_PATH.name, CHANGELOG_PATH.name)
